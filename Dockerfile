@@ -17,15 +17,24 @@ RUN apt-get update && \
             wget \
             bzip2 \
             pypy \
-            python-pip
+            python-pip \
+            python-yaml \
+            python-scipy
+
+ENV RACKETV 6.6
+ENV RACKETINSTALLER racket-$RACKETV-x86_64-linux.sh
+RUN wget -q https://mirror.racket-lang.org/installers/$RACKETV/$RACKETINSTALLER
+RUN /bin/bash $RACKETINSTALLER --unix-style --dest /usr
 
 RUN git clone https://github.com/pycket/pycket
 WORKDIR pycket
-RUN hg clone https://bitbucket.org/pypy/pypy
+RUN git checkout -q 3573fd1
+RUN hg clone -r 7c64684c80f4 https://bitbucket.org/pypy/pypy
+RUN raco pkg install -t dir pycket/pycket-lang/
 
-ENV INSTALLER=racket-test-current-x86_64-linux-wheezy.sh
-RUN wget http://plt.eecs.northwestern.edu/snapshots/current/installers/$INSTALLER
-RUN sh $INSTALLER --in-place --dest racket
+RUN make pycket-c
+RUN git clone https://github.com/pycket/pycket-bench ../pycket-bench
+WORKDIR ../pycket-bench
+RUN rm -r pycket && ln -s ../pycket/ && pip install ReBench
 
-RUN make setup
-RUN make test
+CMD ["rebench", "-d", "-v", "rebench.conf", "FastBenchmark"]
