@@ -19,7 +19,17 @@ RUN apt-get update && \
             pypy \
             python-pip \
             python-yaml \
-            python-scipy
+            python-scipy \
+            ghostscript \
+            r-base \
+            r-cran-reshape2 \
+            r-cran-plyr \
+            r-cran-boot \
+            r-cran-hmisc \
+            r-cran-ggplot2 \
+            r-cran-devtools \
+            r-cran-dplyr \
+            r-cran-curl
 
 ENV RACKETV 6.6
 ENV RACKETINSTALLER racket-$RACKETV-x86_64-linux.sh
