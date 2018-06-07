@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch-slim
 MAINTAINER Brian Lachance <blachance@gmail.com>
 
 ADD sources.list /etc/apt/sources.list
@@ -7,15 +7,9 @@ ENV PATH=./racket/bin:$PATH
 RUN apt-get update && \
     apt-get build-dep -y pypy && \
     apt-get install -y --no-install-recommends \
-            ca-certificates \
-            libexpat1 \
-            libffi6 \
-            libgdbm3 \
-            libsqlite3-0 \
             git \
             mercurial \
             wget \
-            bzip2 \
             pypy \
             python-pip \
             python-yaml \
