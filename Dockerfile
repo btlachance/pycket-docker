@@ -39,6 +39,6 @@ RUN raco pkg install -t dir pycket/pycket-lang/
 RUN make pycket-c
 RUN git clone https://github.com/pycket/pycket-bench ../pycket-bench
 WORKDIR ../pycket-bench
-RUN rm -r pycket && ln -s ../pycket/ && pip install ReBench
+RUN rm -r pycket && ln -s ../pycket/ && pip install setuptools && pip install ReBench
 
 CMD ["rebench", "-d", "-v", "rebench.conf", "FastBenchmark"]
